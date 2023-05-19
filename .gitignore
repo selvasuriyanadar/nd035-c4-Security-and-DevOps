@@ -1,2 +1,4 @@
 .idea/
 /starter_code/target/
+*.swp
+/starter_code/set-java-home.sh
