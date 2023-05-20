@@ -28,6 +28,7 @@ public class User {
 	
 	@Column(nullable = false)
 	@JsonProperty
+    @JsonIgnore
 	private String password;
 	
 	@OneToOne(cascade = CascadeType.ALL)

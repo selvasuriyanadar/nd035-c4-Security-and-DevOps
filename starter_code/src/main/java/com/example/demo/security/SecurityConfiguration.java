@@ -28,6 +28,7 @@ public class SecurityConfiguration {
     public AuthenticationManager authManager(HttpSecurity http) throws Exception {
         AuthenticationManagerBuilder authenticationManagerBuilder =
             http.getSharedObject(AuthenticationManagerBuilder.class);
+        //.parentAuthenticationManager(authenticationManager)
         authenticationManagerBuilder
             .userDetailsService(userDetailsService)
             .passwordEncoder(bCryptPasswordEncoder);
@@ -43,20 +44,6 @@ public class SecurityConfiguration {
                 .addFilter(new JWTAuthenticationFilter(authenticationManager))
                 .addFilter(new JWTAuthenticationVerificationFilter(authenticationManager))
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        /*http.authorizeHttpRequests()
-                .requestMatchers("/signup", "/css/**", "/js/**").permitAll()
-                .anyRequest().authenticated();
-
-        http.formLogin()
-                .loginPage("/login")
-                .permitAll();
-
-        http.formLogin()
-                .defaultSuccessUrl("/home", true);
-
-        http.logout()
-                .logoutSuccessUrl("/login");*/
-
         return http.build();
     }
 
