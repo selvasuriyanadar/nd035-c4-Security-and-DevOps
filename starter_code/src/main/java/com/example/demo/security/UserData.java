@@ -10,11 +10,11 @@ import com.example.demo.model.persistence.User;
 
 public class UserData implements UserDetails {
 
-    private User user;
+    private final User user;
 
-    private Collection<GrantedAuthority> authorities;
-    private String password;
-    private String username;
+    private final Collection<GrantedAuthority> authorities;
+    private final String password;
+    private final String username;
 
     public UserData(User user) {
         this.user = user;

@@ -9,20 +9,21 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.stereotype.Component;
 
 import com.auth0.jwt.JWT;
-
 import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
 
 @Component
 public class JWTAuthenticationVerificationFilter extends BasicAuthenticationFilter {
+
+    private UserDetailsServiceImpl userDetailsServiceImpl;
 	
-	public JWTAuthenticationVerificationFilter(AuthenticationManager authManager) {
+	public JWTAuthenticationVerificationFilter(AuthenticationManager authManager, UserDetailsServiceImpl userDetailsServiceImpl) {
         super(authManager);
+        this.userDetailsServiceImpl = userDetailsServiceImpl;
     }
 	
 	@Override
@@ -35,20 +36,18 @@ public class JWTAuthenticationVerificationFilter extends BasicAuthenticationFilt
             return;
         }
 
-        UsernamePasswordAuthenticationToken authentication = getAuthentication(req);
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        SecurityContextHolder.getContext().setAuthentication(getAuthentication(req));
         chain.doFilter(req, res);
     }
 
-	private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest req) {
+	private TokenBasedAuthentication getAuthentication(HttpServletRequest req) {
 		String token = req.getHeader(SecurityConstants.HEADER_STRING);
         if (token != null) {
             String user = JWT.require(HMAC512(SecurityConstants.SECRET.getBytes())).build()
                     .verify(token.replace(SecurityConstants.TOKEN_PREFIX, ""))
                     .getSubject();
             if (user != null) {
-                return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
+                return new TokenBasedAuthentication(userDetailsServiceImpl.loadUser(user));
             }
             return null;
         }

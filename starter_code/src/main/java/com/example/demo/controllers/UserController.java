@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import com.example.demo.exceptions.*;
 import com.example.demo.model.persistence.Cart;
@@ -30,15 +31,16 @@ public class UserController {
     @Autowired
     private CartRepository cartRepository;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/id/{id}")
     public ResponseEntity<User> findById(@PathVariable Long id) {
         return ResponseEntity.of(userRepository.findById(id));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{username}")
     public ResponseEntity<User> findByUsername(@PathVariable String username) {
-        User user = userRepository.findByUsername(username);
-        return user == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(user);
+        return ResponseEntity.of(userRepository.findByUsername(username));
     }
 
     @PostMapping("/create")
