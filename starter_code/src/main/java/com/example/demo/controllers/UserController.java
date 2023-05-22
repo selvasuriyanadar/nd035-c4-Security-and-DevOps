@@ -83,6 +83,9 @@ public class UserController {
         if (user.getPassword().length() > 600) {
             throw new PasswordSizeGreaterThanExpectedException();
         }
+        if (!user.getPassword().equals(user.getConfirmPassword())) {
+            throw new PasswordConfirmationFailedException();
+        }
     }
 
 }
