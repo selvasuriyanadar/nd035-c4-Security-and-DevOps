@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 
 import com.example.demo.exceptions.*;
+import com.example.demo.security.UserData;
 import com.example.demo.model.persistence.Cart;
 import com.example.demo.model.persistence.User;
 import com.example.demo.model.persistence.repositories.CartRepository;
@@ -31,6 +33,9 @@ public class UserController {
     @Autowired
     private CartRepository cartRepository;
 
+    @Autowired
+    private BCryptPasswordEncoder bcryptPasswordEncoder;
+
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/id/{id}")
     public ResponseEntity<User> findById(@PathVariable Long id) {
@@ -43,12 +48,18 @@ public class UserController {
         return ResponseEntity.of(userRepository.findByUsername(username));
     }
 
+    @GetMapping("/find")
+    public ResponseEntity<User> find(Authentication authentication) {
+		User user = ((UserData) authentication.getPrincipal()).getUser();
+        return ResponseEntity.ok(user);
+    }
+
     @PostMapping("/create")
     public ResponseEntity<User> createUser(@RequestBody CreateUserRequest createUserRequest) {
         validateUser(createUserRequest);
         User user = new User();
         user.setUsername(createUserRequest.getUsername());
-        user.setPassword(new BCryptPasswordEncoder().encode(createUserRequest.getPassword()));
+        user.setPassword(bcryptPasswordEncoder.encode(createUserRequest.getPassword()));
         Cart cart = new Cart();
         cartRepository.save(cart);
         user.setCart(cart);

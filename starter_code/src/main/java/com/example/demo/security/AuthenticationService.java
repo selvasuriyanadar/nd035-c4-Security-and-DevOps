@@ -17,8 +17,11 @@ public class AuthenticationService implements AuthenticationProvider {
 
     private UserDetailsServiceImpl userDetailsServiceImpl;
 
-    public AuthenticationService(UserDetailsServiceImpl userDetailsServiceImpl) {
+    private BCryptPasswordEncoder bcryptPasswordEncoder;
+
+    public AuthenticationService(UserDetailsServiceImpl userDetailsServiceImpl, BCryptPasswordEncoder bcryptPasswordEncoder) {
         this.userDetailsServiceImpl = userDetailsServiceImpl;
+        this.bcryptPasswordEncoder = bcryptPasswordEncoder;
     }
 
     public static class AuthenticationFailedException extends AuthenticationException {
@@ -35,7 +38,7 @@ public class AuthenticationService implements AuthenticationProvider {
         try {
             final UserData user = userDetailsServiceImpl.loadUser(username);
 
-            if (!(new BCryptPasswordEncoder().matches(password, user.getPassword()))) {
+            if (!(bcryptPasswordEncoder.matches(password, user.getPassword()))) {
                 throw new AuthenticationFailedException();
             }
 

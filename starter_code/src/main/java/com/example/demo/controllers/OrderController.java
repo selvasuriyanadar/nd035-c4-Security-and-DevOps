@@ -31,16 +31,16 @@ public class OrderController {
 	private OrderRepository orderRepository;
 	
 	
-	@PostMapping("/submit/{username}")
-	public ResponseEntity<UserOrder> submit(Authentication authentication, @PathVariable String username) {
+	@PostMapping("/submit")
+	public ResponseEntity<UserOrder> submit(Authentication authentication) {
 		User user = ((UserData) authentication.getPrincipal()).getUser();
 		UserOrder order = UserOrder.createFromCart(user.getCart());
 		orderRepository.save(order);
 		return ResponseEntity.ok(order);
 	}
 	
-	@GetMapping("/history/{username}")
-	public ResponseEntity<List<UserOrder>> getOrdersForUser(Authentication authentication, @PathVariable String username) {
+	@GetMapping("/history")
+	public ResponseEntity<List<UserOrder>> getOrdersForUser(Authentication authentication) {
 		User user = ((UserData) authentication.getPrincipal()).getUser();
 		return ResponseEntity.ok(orderRepository.findByUser(user));
 	}
