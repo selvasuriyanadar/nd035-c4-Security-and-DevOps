@@ -80,7 +80,7 @@ public class UserController {
         if (user.getPassword().length() < 8) {
             throw new PasswordSizeLesserThanExpectedException();
         }
-        if (user.getPassword().length() > 600) {
+        if (user.getPassword().length() > 30) {
             throw new PasswordSizeGreaterThanExpectedException();
         }
         if (!user.getPassword().equals(user.getConfirmPassword())) {

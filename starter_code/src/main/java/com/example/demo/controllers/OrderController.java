@@ -35,6 +35,7 @@ public class OrderController {
 	public ResponseEntity<UserOrder> submit(Authentication authentication) {
 		User user = ((UserData) authentication.getPrincipal()).getUser();
 		UserOrder order = UserOrder.createFromCart(user.getCart());
+        order.setUser(user);
 		orderRepository.save(order);
 		return ResponseEntity.ok(order);
 	}

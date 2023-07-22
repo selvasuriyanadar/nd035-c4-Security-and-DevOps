@@ -20,6 +20,7 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "cart")
@@ -38,6 +39,7 @@ public class Cart {
     
     @OneToOne(mappedBy = "cart")
     @JsonProperty
+    @JsonIgnore
     private User user;
     
     @Column
