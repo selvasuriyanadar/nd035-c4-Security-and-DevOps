@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.security.core.Authentication;
 
+import com.example.demo.exceptions.ItemNotFoundException;
 import com.example.demo.security.UserData;
 import com.example.demo.model.persistence.Cart;
 import com.example.demo.model.persistence.Item;
@@ -39,7 +40,7 @@ public class CartController {
 		User user = ((UserData) authentication.getPrincipal()).getUser();
 		Optional<Item> item = itemRepository.findById(request.getItemId());
 		if(!item.isPresent()) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            throw new ItemNotFoundException();
 		}
 		Cart cart = user.getCart();
 		IntStream.range(0, request.getQuantity())
@@ -53,7 +54,7 @@ public class CartController {
 		User user = ((UserData) authentication.getPrincipal()).getUser();
 		Optional<Item> item = itemRepository.findById(request.getItemId());
 		if(!item.isPresent()) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            throw new ItemNotFoundException();
 		}
 		Cart cart = user.getCart();
 		IntStream.range(0, request.getQuantity())

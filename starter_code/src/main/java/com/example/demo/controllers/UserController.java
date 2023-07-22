@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.example.demo.exceptions.*;
 import com.example.demo.security.UserData;
@@ -26,6 +28,8 @@ import com.example.demo.model.requests.CreateUserRequest;
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
+
+    public static final Logger log = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private UserRepository userRepository;
@@ -64,6 +68,12 @@ public class UserController {
         cartRepository.save(cart);
         user.setCart(cart);
         userRepository.save(user);
+
+        /**
+         * Logging the onboarding of users
+         */
+        log.info("A new user has been on boarded. Username - {}.", user.getUsername());
+
         return ResponseEntity.ok(user);
     }
 

@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.security.core.Authentication;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.example.demo.security.UserData;
 import com.example.demo.model.persistence.Cart;
@@ -22,14 +24,14 @@ import com.example.demo.model.persistence.repositories.UserRepository;
 @RestController
 @RequestMapping("/api/order")
 public class OrderController {
-	
-	
+
+    public static final Logger log = LoggerFactory.getLogger(OrderController.class);
+
 	@Autowired
 	private UserRepository userRepository;
 	
 	@Autowired
 	private OrderRepository orderRepository;
-	
 	
 	@PostMapping("/submit")
 	public ResponseEntity<UserOrder> submit(Authentication authentication) {
@@ -37,6 +39,12 @@ public class OrderController {
 		UserOrder order = UserOrder.createFromCart(user.getCart());
         order.setUser(user);
 		orderRepository.save(order);
+
+        /**
+         * Logging order creations.
+         */
+        log.info("A new order has been placed by user {}. Order Id - {}", user.getUsername(), order.getId());
+
 		return ResponseEntity.ok(order);
 	}
 	
