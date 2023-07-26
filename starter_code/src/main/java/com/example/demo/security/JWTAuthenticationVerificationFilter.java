@@ -16,7 +16,6 @@ import org.springframework.stereotype.Component;
 import com.auth0.jwt.JWT;
 import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
 
-@Component
 public class JWTAuthenticationVerificationFilter extends BasicAuthenticationFilter {
 
     private UserDetailsServiceImpl userDetailsServiceImpl;
