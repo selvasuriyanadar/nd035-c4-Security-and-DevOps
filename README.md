@@ -81,3 +81,4 @@ You must implement unit tests demonstrating at least 80% code coverage.
 
 ### Documentation
 - Documentation for installation is available [here](docs/INSTALLATION.md)
+- Documentation for CICD is available [here](docs/CICD.md)
