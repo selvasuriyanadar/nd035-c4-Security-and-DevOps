@@ -1,5 +1,7 @@
 #!/bin/sh
 
+docker network create jenkins
+
 docker run \
         --name jenkins-docker \
         --rm \

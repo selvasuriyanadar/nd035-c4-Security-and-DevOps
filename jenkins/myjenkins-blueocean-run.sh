@@ -1,5 +1,7 @@
 #!/bin/sh
 
+docker build -t myjenkins-blueocean:2.401.2-1 jenkins-blueocean
+
 docker run \
         --name jenkins-blueocean \
         --restart=on-failure \
