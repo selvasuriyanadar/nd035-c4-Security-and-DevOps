@@ -64,5 +64,8 @@ ssh-keygen -t rsa
 ![Console Output 2](images/cicd/job-success-console-output-2.png)
 ![Job Status Main](images/cicd/job-status-main-page.png)
 ![Job Status Listing](images/cicd/job-status-listing.png)
+
+- The application runs successfully.
+
 ![Application Run Success 1](images/cicd/application-run-success-1.png)
 ![Application Run Success 2](images/cicd/application-run-success-2.png)
