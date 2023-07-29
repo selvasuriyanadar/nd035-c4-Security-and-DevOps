@@ -1,4 +1,5 @@
 .idea/
+**/.idea
 /starter_code/target/
 /starter_code/logs/
 *.swp
