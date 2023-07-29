@@ -77,3 +77,7 @@ cat /var/jenkins\_home/secrets/initialAdminPassword
 ![Install Initial Plugins](images/installation/jenkins-install-initial-plugins.png)
 ![Create User](images/installation/jenkins-create-user.png)
 ![Home Page](images/installation/jenkins-homepage.png)
+
+***Troubleshooting:***
+
+If the logs are not apprearing in the splunk search, then please check and correct the linux file permissions of the files and folders in the shared volume.
