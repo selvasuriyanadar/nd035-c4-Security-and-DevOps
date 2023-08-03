@@ -48,7 +48,7 @@ sudo bash backend/universal-forwarder-run.sh << private ip of the splunk enterpr
 - It requires the private ip of the splunk enterprise EC2 instance to start the process.
 - It monitors the (backend-data) docker volume and sends the events to the provided splunk enterprise instance at 9997 port.
 - The events will be available in the main index of the provided splunk enterprise instance.
-- Navigate to Apps -> Search & Reporting, and search for `index="main" source="/opt/splunkforwarder/data/logs/udacity\_ecom.log"` and the application logs of the ecommerce app deployed to tomcat server should be available.
+- Navigate to Apps -> Search & Reporting, and search for `index="main" source="/opt/splunkforwarder/data/logs/udacity_ecom.log"` and the application logs of the ecommerce app deployed to tomcat server should be available.
 
 ![Search Logs](images/installation/splunk-search-logs.png)
 
@@ -66,7 +66,7 @@ sudo bash myjenkins-blueocean-run.sh
 >By running:
 ```
 sudo docker exec -it jenkins-blueocean bash
-cat /var/jenkins\_home/secrets/initialAdminPassword
+cat /var/jenkins_home/secrets/initialAdminPassword
 ```
 - The pass key will be printed to the screen take that and provide to the jenkins ui to authenticate.
 - Click install suggested plugins, create the jenkins user.
